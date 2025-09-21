@@ -28,18 +28,27 @@ return total;
 
 
 
-  const handleIncrement = (item) => {
+  const handleIncrement = (item) => {dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
 
   const handleDecrement = (item) => {
+     if (item.quantity > 1) {
+    dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
+  } else {
+    dispatch(removeItem(item.name)); // if quantity is 0, remove item
+  }
    
   };
 
   const handleRemove = (item) => {
+    dispatch(removeItem(item.name));
   };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+     const unitPrice = parseFloat(item.cost.substring(1)); // remove "$" and convert to number
+  const subtotal = unitPrice * item.quantity;           // multiply price × quantity
+  return subtotal;
   };
 
   return (
